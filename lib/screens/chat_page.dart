@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:hack_tues_app/models/chat_item.dart';
 import 'package:hack_tues_app/widgets/chat_text_msg.dart';
 
 class ChatPage extends StatefulWidget {
@@ -7,13 +8,33 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final scrollController = ScrollController();
+  final textController = TextEditingController();
+  final List<ChatItem> items = [];
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  void click() {
+    items.add(ChatItem(status: "Send", text: textController.text));
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      curve: Curves.easeOut,
+      duration: Duration(milliseconds: 300),
+    );
+    textController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text("Chat Bot"),
       ),
@@ -25,38 +46,26 @@ class _ChatPageState extends State<ChatPage> {
                 child: Container(
                   padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
                   color: Colors.white,
-                  child: ListView(
+                  child: ListView.builder(
+                    itemCount: this.items.length,
+                    controller: scrollController,
                     physics: BouncingScrollPhysics(),
-                    children: [
-                      ChatTextMsg("Send",
-                          "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-                      ChatTextMsg("Reseiver", "Hello",
-                          avatar: "assets/icons/avatar.jpg"),
-                      ChatTextMsg("Send",
-                          "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-                      ChatTextMsg(
-                        "Reseiver",
-                        "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
-                        avatar: "assets/icons/avatar.jpg",
-                      ),
-                      ChatTextMsg("Send",
-                          "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-                      ChatTextMsg("Reseiver", "Hello",
-                          avatar: "assets/icons/avatar.jpg"),
-                      ChatTextMsg("Send",
-                          "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-                      ChatTextMsg(
-                        "Reseiver",
-                        "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
-                        avatar: "assets/icons/avatar.jpg",
-                      ),
-                    ],
+                    itemBuilder: (context, index) {
+                      ChatItem post = this.items[index];
+                      if (post.type == "TEXT") {
+                        return ChatTextMsg(post.status, post.text);
+                      } else if (post.type == "IMG") {
+                        return Container();
+                      } else {
+                        return Container();
+                      }
+                    },
                   ),
                 ),
               ),
               SizedBox(
                 height: 120,
-              )
+              ),
             ],
           ),
           Positioned(
@@ -67,17 +76,24 @@ class _ChatPageState extends State<ChatPage> {
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 color: Colors.white,
                 child: TextField(
+                  controller: textController,
                   decoration: InputDecoration(
-                    hintText: 'Type your message...',
+                    hintText: "Type your message...",
                     suffixIcon: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.indigo),
-                      padding: EdgeInsets.all(14),
-                      child: Icon(
-                        Icons.send_rounded,
-                        color: Colors.white,
-                        size: 28,
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.indigo,
+                      ),
+                      //padding: EdgeInsets.all(14.0),
+                      margin:
+                          EdgeInsets.only(right: 5.0, top: 5.0, bottom: 3.0),
+                      child: IconButton(
+                        onPressed: click,
+                        icon: Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
                       ),
                     ),
                     filled: true,
@@ -102,3 +118,34 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
+
+// children: [
+//                       ChatTextMsg("Send",
+//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
+//                       ChatTextMsg("Reseiver", "Hello",
+//                           avatar: "assets/images/avatar.jpg"),
+//                       ChatTextMsg("Send",
+//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
+//                       ChatTextMsg(
+//                         "Reseiver",
+//                         "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
+//                         avatar: "assets/images/avatar.jpg",
+//                       ),
+//                       ChatTextMsg("Send",
+//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
+//                       ChatTextMsg("Reseiver", "Hello",
+//                           avatar: "assets/images/avatar.jpg"),
+//                       ChatTextMsg("Send",
+//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
+//                       ChatTextMsg(
+//                         "Reseiver",
+//                         "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
+//                         avatar: "assets/images/avatar.jpg",
+//                       ),
+//                       ChatTextMsg(
+//                         "Reseiver",
+//                         "a",
+//                         avatar: "assets/images/avatar.jpg",
+//                       ),
+//                     ],
+//                   ),

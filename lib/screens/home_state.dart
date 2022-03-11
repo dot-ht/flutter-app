@@ -24,7 +24,10 @@ class _HomeStateState extends State<HomeState> {
       body: _selectedBody,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(
+          context,
+          "/chat_page",
+        ),
         child: Icon(Icons.message),
       ),
       bottomNavigationBar: BottomAppBar(
