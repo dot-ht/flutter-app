@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:hack_tues_app/models/planets_data.dart';
+import 'package:hack_tues_app/style.dart';
 
 class PlanetPage extends StatelessWidget {
   final int index;
@@ -9,6 +10,7 @@ class PlanetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -25,12 +27,15 @@ class PlanetPage extends StatelessWidget {
                     Positioned(
                       right: -110,
                       top: 15,
-                      child: Image.asset(
-                        planets[index].iconImage,
+                      child: Hero(
+                        tag: planets[index].name,
+                        child: Image.asset(
+                          planets[index].iconImage,
+                        ),
                       ),
                     ),
                     Positioned(
-                      top: 50.0,
+                      top: 55.0,
                       left: 16.0,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +46,7 @@ class PlanetPage extends StatelessWidget {
                               "Distance from Sun",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.black,
+                                color: lightMainFontColor,
                               ),
                             ),
                           ),
@@ -51,7 +56,7 @@ class PlanetPage extends StatelessWidget {
                               "148, 377, 282 MI KM",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: Colors.black,
+                                color: lightSecondFontColor,
                               ),
                             ),
                           ),
@@ -61,7 +66,7 @@ class PlanetPage extends StatelessWidget {
                               "Radius",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.black,
+                                color: lightMainFontColor,
                               ),
                             ),
                           ),
@@ -71,7 +76,7 @@ class PlanetPage extends StatelessWidget {
                               "3,330 kilometers",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: Colors.black,
+                                color: lightSecondFontColor,
                               ),
                             ),
                           ),
@@ -81,7 +86,7 @@ class PlanetPage extends StatelessWidget {
                               "Year",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.black,
+                                color: lightMainFontColor,
                               ),
                             ),
                           ),
@@ -91,7 +96,7 @@ class PlanetPage extends StatelessWidget {
                               "678 Earth Days",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: Colors.black,
+                                color: lightSecondFontColor,
                               ),
                             ),
                           ),
@@ -101,7 +106,7 @@ class PlanetPage extends StatelessWidget {
                               "Planet Type",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.black,
+                                color: lightMainFontColor,
                               ),
                             ),
                           ),
@@ -111,7 +116,7 @@ class PlanetPage extends StatelessWidget {
                               "Terrestrial",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: Colors.black,
+                                color: lightSecondFontColor,
                               ),
                             ),
                           ),
@@ -120,7 +125,10 @@ class PlanetPage extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: Icon(Icons.arrow_back),
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: lightMainFontColor,
+                      ),
                     )
                   ],
                 ),
@@ -134,32 +142,33 @@ class PlanetPage extends StatelessWidget {
                       planets[index].name,
                       style: TextStyle(
                         fontSize: 56,
+                        fontWeight: FontWeight.w600,
+                        color: lightMainFontColor,
                       ),
                     ),
                     Text(
-                      "The Human Planet",
+                      planets[index].sub,
                       style: TextStyle(
                         fontSize: 31,
                         fontStyle: FontStyle.italic,
+                        color: lightSecondFontColor,
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                       child: Divider(
-                        color: Color(0xff374459).withOpacity(0.25),
+                        color: dividerColor,
                         thickness: 1.0,
                       ),
                     ),
                     Text(
                       planets[index].description,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                      style: TextStyle(fontSize: 20, color: lightMainFontColor),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                       child: Divider(
-                        color: Color(0xff374459).withOpacity(0.25),
+                        color: dividerColor,
                         thickness: 1.0,
                       ),
                     ),
@@ -167,11 +176,12 @@ class PlanetPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 16.0, bottom: 5.0),
+                padding: EdgeInsets.only(left: 16.0, bottom: 15.0),
                 child: Text(
                   "Gallery",
                   style: TextStyle(
                     fontSize: 25,
+                    color: lightMainFontColor,
                   ),
                 ),
               ),
@@ -189,7 +199,7 @@ class PlanetPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withOpacity(0.1),
                             spreadRadius: 3.0,
                             blurRadius: 5.0,
                             offset: Offset(0, 2),
@@ -197,7 +207,7 @@ class PlanetPage extends StatelessWidget {
                         ],
                         borderRadius: BorderRadius.circular(12.0),
                         image: DecorationImage(
-                          image: NetworkImage(planets[index].images[0]),
+                          image: NetworkImage(planets[index].images[itemIdx]),
                           fit: BoxFit.cover,
                         ),
                       ),

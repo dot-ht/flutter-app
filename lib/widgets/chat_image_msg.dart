@@ -1,11 +1,10 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:hack_tues_app/models/chat_item.dart';
-import 'package:hack_tues_app/style.dart';
 
-class ChatTextMsg extends StatelessWidget {
+class ChatImageMsg extends StatelessWidget {
   final ChatItem item;
 
-  ChatTextMsg(this.item);
+  ChatImageMsg(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +21,11 @@ class ChatTextMsg extends StatelessWidget {
           ),
         Flexible(
           child: Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-            padding: EdgeInsets.all(20),
+            height: 200.0,
+            margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
+            padding: EdgeInsets.all(20.0),
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              color: item.status == "Send" ? selectedTabColor : planetCardColor,
               borderRadius: item.status == "Send"
                   ? BorderRadius.only(
                       topLeft: Radius.circular(30),
@@ -37,11 +37,9 @@ class ChatTextMsg extends StatelessWidget {
                       topRight: Radius.circular(30),
                       bottomRight: Radius.circular(30),
                     ),
-            ),
-            child: Text(
-              item.text,
-              style: TextStyle(
-                color: lightMainFontColor,
+              image: DecorationImage(
+                image: NetworkImage(item.imgLink),
+                fit: BoxFit.cover,
               ),
             ),
           ),

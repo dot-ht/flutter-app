@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hack_tues_app/screens/explore_page.dart';
 import 'package:hack_tues_app/screens/settings_page.dart';
+import 'package:hack_tues_app/style.dart';
 
 class HomeState extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _HomeStateState extends State<HomeState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: _selectedBody,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -28,10 +30,11 @@ class _HomeStateState extends State<HomeState> {
           context,
           "/chat_page",
         ),
+        backgroundColor: Colors.purple[500],
         child: Icon(Icons.message),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: bottomAppBarColor,
         shape: CircularNotchedRectangle(),
         child: Container(
           child: Row(
@@ -46,8 +49,8 @@ class _HomeStateState extends State<HomeState> {
                 icon: Icon(
                   Icons.home,
                   color: _selectedIndex == 0
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                      ? selectedTabColor
+                      : unselectedTabColor,
                 ),
               ),
               IconButton(
@@ -58,8 +61,8 @@ class _HomeStateState extends State<HomeState> {
                 icon: Icon(
                   Icons.settings,
                   color: _selectedIndex == 1
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                      ? selectedTabColor
+                      : unselectedTabColor,
                 ),
               )
             ],

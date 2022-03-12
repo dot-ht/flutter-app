@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:hack_tues_app/models/chat_item.dart';
+import 'package:hack_tues_app/style.dart';
+import 'package:hack_tues_app/widgets/chat_image_msg.dart';
 import 'package:hack_tues_app/widgets/chat_text_msg.dart';
 
 class ChatPage extends StatefulWidget {
@@ -18,13 +20,25 @@ class _ChatPageState extends State<ChatPage> {
     scrollController.dispose();
   }
 
-  void click() {
-    items.add(ChatItem(status: "Send", text: textController.text));
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      curve: Curves.easeOut,
-      duration: Duration(milliseconds: 300),
-    );
+  void newPost() {
+    this.setState(() {
+      items.add(
+        ChatItem(
+          status: "Receive",
+          type: "BOTH",
+          content: ChatContent(
+            answer: textController.text,
+            imgLink:
+                "https://img.freepik.com/free-photo/vertical-shot-narrow-alley-venice-italy_181624-45463.jpg",
+          ),
+          text: textController.text,
+          imgLink:
+              "https://img.freepik.com/free-photo/vertical-shot-narrow-alley-venice-italy_181624-45463.jpg",
+        ),
+      );
+    });
+    scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    FocusScope.of(context).unfocus();
     textController.clear();
   }
 
@@ -32,11 +46,12 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: backgroundColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text("Chat Bot"),
+        title: Text("Todbot"),
       ),
       body: Stack(
         children: [
@@ -44,8 +59,8 @@ class _ChatPageState extends State<ChatPage> {
             children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                  color: Colors.white,
+                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                  color: backgroundColor,
                   child: ListView.builder(
                     itemCount: this.items.length,
                     controller: scrollController,
@@ -53,11 +68,28 @@ class _ChatPageState extends State<ChatPage> {
                     itemBuilder: (context, index) {
                       ChatItem post = this.items[index];
                       if (post.type == "TEXT") {
-                        return ChatTextMsg(post.status, post.text);
+                        return ChatTextMsg(post);
                       } else if (post.type == "IMG") {
-                        return Container();
+                        return ChatImageMsg(post);
                       } else {
-                        return Container();
+                        return Column(
+                          children: [
+                            ChatTextMsg(
+                              ChatItem(
+                                type: post.type,
+                                status: post.status,
+                                text: post.content.answer,
+                              ),
+                            ),
+                            ChatImageMsg(
+                              ChatItem(
+                                type: post.type,
+                                status: post.status,
+                                imgLink: post.content.imgLink,
+                              ),
+                            ),
+                          ],
+                        );
                       }
                     },
                   ),
@@ -74,31 +106,32 @@ class _ChatPageState extends State<ChatPage> {
               child: Container(
                 height: 120,
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                color: Colors.white,
+                color: backgroundColor,
                 child: TextField(
-                  controller: textController,
+                  controller: this.textController,
+                  style: TextStyle(color: lightMainFontColor),
                   decoration: InputDecoration(
                     hintText: "Type your message...",
+                    hintStyle: TextStyle(color: lightMainFontColor),
                     suffixIcon: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.indigo,
+                        color: Colors.purple[500],
                       ),
                       //padding: EdgeInsets.all(14.0),
                       margin:
                           EdgeInsets.only(right: 5.0, top: 5.0, bottom: 3.0),
                       child: IconButton(
-                        onPressed: click,
                         icon: Icon(
                           Icons.send_rounded,
-                          color: Colors.white,
+                          color: lightMainFontColor,
                           size: 24.0,
                         ),
+                        onPressed: this.newPost,
                       ),
                     ),
                     filled: true,
-                    fillColor: Colors.blueGrey[50],
-                    labelStyle: TextStyle(fontSize: 12),
+                    fillColor: planetCardColor,
                     contentPadding: EdgeInsets.all(20),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(),
@@ -118,34 +151,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
-// children: [
-//                       ChatTextMsg("Send",
-//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-//                       ChatTextMsg("Reseiver", "Hello",
-//                           avatar: "assets/images/avatar.jpg"),
-//                       ChatTextMsg("Send",
-//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-//                       ChatTextMsg(
-//                         "Reseiver",
-//                         "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
-//                         avatar: "assets/images/avatar.jpg",
-//                       ),
-//                       ChatTextMsg("Send",
-//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-//                       ChatTextMsg("Reseiver", "Hello",
-//                           avatar: "assets/images/avatar.jpg"),
-//                       ChatTextMsg("Send",
-//                           "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum.."),
-//                       ChatTextMsg(
-//                         "Reseiver",
-//                         "Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..Zdrasti drugario komunist! Kak sme dnes v tozi cherven den? She pada li kapitala? Lorem Ipsum.. Lorem Ipsum..Lorem Ipsum..Lorem Ipsum..",
-//                         avatar: "assets/images/avatar.jpg",
-//                       ),
-//                       ChatTextMsg(
-//                         "Reseiver",
-//                         "a",
-//                         avatar: "assets/images/avatar.jpg",
-//                       ),
-//                     ],
-//                   ),

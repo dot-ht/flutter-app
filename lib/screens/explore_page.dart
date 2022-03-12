@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_tues_app/models/planets_data.dart';
+import 'package:hack_tues_app/style.dart';
 import 'package:hack_tues_app/widgets/planet_card.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _PlanetPageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue[900],
+      color: backgroundColor,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +32,7 @@ class _PlanetPageState extends State<ExplorePage> {
                   Text(
                     "Explore",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: lightMainFontColor,
                       fontSize: 44.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -41,7 +42,7 @@ class _PlanetPageState extends State<ExplorePage> {
                     child: Text(
                       "Solar System Planets",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: lightSecondFontColor,
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -69,13 +70,10 @@ class _PlanetPageState extends State<ExplorePage> {
                             _currentIndex = index;
                           });
                         }),
-                    items: [
-                      PlanetCard(0),
-                      PlanetCard(1),
-                      PlanetCard(2),
-                      PlanetCard(3),
-                      PlanetCard(4),
-                    ],
+                    items: List.generate(
+                      planets.length,
+                      (index) => PlanetCard(index),
+                    ),
                   ),
                   SizedBox(
                     height: 20.0,
@@ -92,8 +90,8 @@ class _PlanetPageState extends State<ExplorePage> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _currentIndex == index
-                              ? Colors.grey
-                              : Colors.black,
+                              ? selectedTabColor
+                              : unselectedTabColor,
                         ),
                       ),
                     ),

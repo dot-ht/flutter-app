@@ -31,7 +31,7 @@ class RouteGenerator {
           transitionsBuilder: (context, animation, secAnimation, child) {
             return SlideTransition(
               position: Tween(
-                begin: Offset(1, 0),
+                begin: Offset(.0, 1.0),
                 end: Offset.zero,
               ).animate(animation),
               child: child,
