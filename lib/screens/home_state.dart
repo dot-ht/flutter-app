@@ -31,7 +31,10 @@ class _HomeStateState extends State<HomeState> {
           "/chat_page",
         ),
         backgroundColor: Colors.purple[500],
-        child: Icon(Icons.message),
+        child: Icon(
+          Icons.message,
+          color: bottomAppBarColor,
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: bottomAppBarColor,
