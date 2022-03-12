@@ -3,9 +3,9 @@ import 'package:hack_tues_app/models/planets_data.dart';
 import 'package:hack_tues_app/style.dart';
 
 class PlanetPage extends StatelessWidget {
-  final int index;
+  final planet;
 
-  PlanetPage(this.index);
+  PlanetPage(this.planet);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,9 @@ class PlanetPage extends StatelessWidget {
                       right: -110,
                       top: 15,
                       child: Hero(
-                        tag: planets[index].name,
+                        tag: planet.name,
                         child: Image.asset(
-                          planets[index].iconImage,
+                          planet.iconImage,
                         ),
                       ),
                     ),
@@ -139,7 +139,7 @@ class PlanetPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      planets[index].name,
+                      planet.name,
                       style: TextStyle(
                         fontSize: 56,
                         fontWeight: FontWeight.w600,
@@ -147,7 +147,7 @@ class PlanetPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      planets[index].sub,
+                      planet.sub,
                       style: TextStyle(
                         fontSize: 31,
                         fontStyle: FontStyle.italic,
@@ -162,7 +162,7 @@ class PlanetPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      planets[index].description,
+                      planet.description,
                       style: TextStyle(fontSize: 20, color: lightMainFontColor),
                     ),
                     Padding(
@@ -190,7 +190,7 @@ class PlanetPage extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 15.0),
                 child: ListView.builder(
                   padding: EdgeInsets.only(right: 16.0),
-                  itemCount: planets[index].images.length,
+                  itemCount: planet.images.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, itemIdx) {
                     return Container(
@@ -207,7 +207,7 @@ class PlanetPage extends StatelessWidget {
                         ],
                         borderRadius: BorderRadius.circular(12.0),
                         image: DecorationImage(
-                          image: NetworkImage(planets[index].images[itemIdx]),
+                          image: NetworkImage(planet.images[itemIdx]),
                           fit: BoxFit.cover,
                         ),
                       ),

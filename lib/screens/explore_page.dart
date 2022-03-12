@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_tues_app/models/planets_data.dart';
+import 'package:hack_tues_app/services/rest_service.dart';
 import 'package:hack_tues_app/style.dart';
 import 'package:hack_tues_app/widgets/planet_card.dart';
+import '../api/rest_api.dart';
 
 class ExplorePage extends StatefulWidget {
   @override
@@ -10,7 +12,20 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _PlanetPageState extends State<ExplorePage> {
+  final _planets = RestService(RestApi()).getPlanets();
+  var _planetsLenght;
   int _currentIndex = 2;
+
+  @override
+  void initState() {
+    super.initState();
+    getLenght(_planets);
+  }
+
+  void getLenght(_planets) async {
+    final lenght = await _planets.planets.lenght;
+    setState(() => _planetsLenght = lenght);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +86,8 @@ class _PlanetPageState extends State<ExplorePage> {
                           });
                         }),
                     items: List.generate(
-                      planets.length,
-                      (index) => PlanetCard(index),
+                      _planetsLenght,
+                      (index) => PlanetCard(_planets),
                     ),
                   ),
                   SizedBox(
@@ -81,7 +96,7 @@ class _PlanetPageState extends State<ExplorePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      planets.length,
+                      _planetsLenght,
                       (index) => Container(
                         width: 10.0,
                         height: 10.0,

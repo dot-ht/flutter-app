@@ -4,9 +4,9 @@ import 'package:hack_tues_app/models/screen_arguments.dart';
 import 'package:hack_tues_app/style.dart';
 
 class PlanetCard extends StatelessWidget {
-  final int index;
+  final planet;
 
-  PlanetCard(this.index);
+  PlanetCard(this.planet);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class PlanetCard extends StatelessWidget {
           Navigator.pushNamed(
             context,
             "/planet_page",
-            arguments: ScreenArguments(index),
+            arguments: ScreenArguments(planet),
           );
         },
         child: Container(
@@ -48,7 +48,7 @@ class PlanetCard extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 15.0),
                               child: Text(
-                                planets[index].name,
+                                planet.name,
                                 style: TextStyle(
                                   color: lightMainFontColor,
                                   fontSize: 44.0,
@@ -58,7 +58,7 @@ class PlanetCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              planets[index].sub,
+                              planet.sub,
                               style: TextStyle(
                                 color: lightMainFontColor,
                                 fontSize: 20.0,
@@ -69,7 +69,7 @@ class PlanetCard extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
                               child: Text(
-                                planets[index].description,
+                                planet.description,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -85,7 +85,7 @@ class PlanetCard extends StatelessWidget {
                                   Navigator.pushNamed(
                                     context,
                                     "/planet_page",
-                                    arguments: ScreenArguments(index),
+                                    arguments: ScreenArguments(planet),
                                   );
                                 },
                                 child: Text(
@@ -105,9 +105,9 @@ class PlanetCard extends StatelessWidget {
                 ],
               ),
               Hero(
-                tag: planets[index].name,
+                tag: planet.name,
                 child: Image.asset(
-                  planets[index].iconImage,
+                  planet.iconImage,
                   height: 300.0,
                 ),
               ),

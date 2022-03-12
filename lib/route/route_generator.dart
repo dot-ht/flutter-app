@@ -23,7 +23,7 @@ class RouteGenerator {
             );
           },
           pageBuilder: (context, animation, secAnimation) {
-            return PlanetPage(args.index);
+            return PlanetPage(args.planet);
           },
         );
       case "/chat_page":

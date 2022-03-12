@@ -1,5 +1,5 @@
 class ScreenArguments {
-  final int index;
+  final planet;
 
-  ScreenArguments(this.index);
+  ScreenArguments(this.planet);
 }
