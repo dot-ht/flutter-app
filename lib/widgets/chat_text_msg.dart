@@ -17,7 +17,7 @@ class ChatTextMsg extends StatelessWidget {
       children: [
         if (item.status == "Receive")
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/avatar.jpg"),
+            backgroundImage: AssetImage("assets/images/avatar2.jpg"),
             radius: 25.0,
           ),
         Flexible(
@@ -42,6 +42,7 @@ class ChatTextMsg extends StatelessWidget {
               item.text,
               style: TextStyle(
                 color: lightMainFontColor,
+                fontFamily: fontName,
               ),
             ),
           ),

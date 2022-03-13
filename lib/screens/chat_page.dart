@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:hack_tues_app/api/rest_api.dart';
 import 'package:hack_tues_app/models/chat_item.dart';
+import 'package:hack_tues_app/services/rest_service.dart';
 import 'package:hack_tues_app/style.dart';
 import 'package:hack_tues_app/widgets/chat_image_msg.dart';
 import 'package:hack_tues_app/widgets/chat_text_msg.dart';
@@ -12,6 +14,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final scrollController = ScrollController();
   final textController = TextEditingController();
+  final _restServices = RestService(RestApi());
   final List<ChatItem> items = [];
 
   @override
@@ -20,20 +23,25 @@ class _ChatPageState extends State<ChatPage> {
     scrollController.dispose();
   }
 
-  void newPost() {
-    this.setState(() {
+  void newPost() async {
+    final responce = await _restServices.getChat(textController.text);
+    setState(() {
+      items.add(
+        ChatItem(
+          status: "Send",
+          type: "str",
+          text: textController.text,
+        ),
+      );
+    });
+    setState(() {
       items.add(
         ChatItem(
           status: "Receive",
-          type: "BOTH",
-          content: ChatContent(
-            answer: textController.text,
-            imgLink:
-                "https://img.freepik.com/free-photo/vertical-shot-narrow-alley-venice-italy_181624-45463.jpg",
-          ),
-          text: textController.text,
-          imgLink:
-              "https://img.freepik.com/free-photo/vertical-shot-narrow-alley-venice-italy_181624-45463.jpg",
+          type: responce.type,
+          text: responce.text,
+          imgLink: responce.imgLink,
+          suggestions: responce.suggestions,
         ),
       );
     });
@@ -51,7 +59,7 @@ class _ChatPageState extends State<ChatPage> {
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text("Todbot"),
+        title: Text("todbot"),
       ),
       body: Stack(
         children: [
@@ -62,14 +70,15 @@ class _ChatPageState extends State<ChatPage> {
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   color: backgroundColor,
                   child: ListView.builder(
-                    itemCount: this.items.length,
+                    itemCount: items.length,
                     controller: scrollController,
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      ChatItem post = this.items[index];
-                      if (post.type == "TEXT") {
+                      print(index);
+                      ChatItem post = items[index];
+                      if (post.type == "str") {
                         return ChatTextMsg(post);
-                      } else if (post.type == "IMG") {
+                      } else if (post.type == "img") {
                         return ChatImageMsg(post);
                       } else {
                         return Column(
@@ -78,14 +87,14 @@ class _ChatPageState extends State<ChatPage> {
                               ChatItem(
                                 type: post.type,
                                 status: post.status,
-                                text: post.content.answer,
+                                text: post.text,
                               ),
                             ),
                             ChatImageMsg(
                               ChatItem(
                                 type: post.type,
                                 status: post.status,
-                                imgLink: post.content.imgLink,
+                                imgLink: post.imgLink,
                               ),
                             ),
                           ],
@@ -108,17 +117,19 @@ class _ChatPageState extends State<ChatPage> {
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 color: backgroundColor,
                 child: TextField(
-                  controller: this.textController,
+                  controller: textController,
                   style: TextStyle(color: lightMainFontColor),
                   decoration: InputDecoration(
                     hintText: "Type your message...",
-                    hintStyle: TextStyle(color: lightMainFontColor),
+                    hintStyle: TextStyle(
+                      color: lightMainFontColor,
+                      fontFamily: fontName,
+                    ),
                     suffixIcon: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Colors.purple[500],
                       ),
-                      //padding: EdgeInsets.all(14.0),
                       margin:
                           EdgeInsets.only(right: 5.0, top: 5.0, bottom: 3.0),
                       child: IconButton(
@@ -127,7 +138,7 @@ class _ChatPageState extends State<ChatPage> {
                           color: lightMainFontColor,
                           size: 24.0,
                         ),
-                        onPressed: this.newPost,
+                        onPressed: newPost,
                       ),
                     ),
                     filled: true,

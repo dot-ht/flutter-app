@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:hack_tues_app/models/planets_data.dart';
 import 'package:hack_tues_app/style.dart';
 
 class PlanetPage extends StatelessWidget {
@@ -14,12 +13,12 @@ class PlanetPage extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                //color: Colors.purple,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.35,
                 child: Stack(
@@ -29,7 +28,7 @@ class PlanetPage extends StatelessWidget {
                       top: 15,
                       child: Hero(
                         tag: planet.name,
-                        child: Image.asset(
+                        child: Image.network(
                           planet.iconImage,
                         ),
                       ),
@@ -46,6 +45,7 @@ class PlanetPage extends StatelessWidget {
                               "Distance from Sun",
                               style: TextStyle(
                                 fontSize: 18.0,
+                                fontFamily: fontName,
                                 color: lightMainFontColor,
                               ),
                             ),
@@ -53,9 +53,10 @@ class PlanetPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(bottom: 8.0),
                             child: Text(
-                              "148, 377, 282 MI KM",
+                              planet.distance,
                               style: TextStyle(
                                 fontSize: 16.0,
+                                fontFamily: fontName,
                                 color: lightSecondFontColor,
                               ),
                             ),
@@ -66,6 +67,7 @@ class PlanetPage extends StatelessWidget {
                               "Radius",
                               style: TextStyle(
                                 fontSize: 18.0,
+                                fontFamily: fontName,
                                 color: lightMainFontColor,
                               ),
                             ),
@@ -73,9 +75,10 @@ class PlanetPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(bottom: 8.0),
                             child: Text(
-                              "3,330 kilometers",
+                              planet.radius,
                               style: TextStyle(
                                 fontSize: 16.0,
+                                fontFamily: fontName,
                                 color: lightSecondFontColor,
                               ),
                             ),
@@ -86,6 +89,7 @@ class PlanetPage extends StatelessWidget {
                               "Year",
                               style: TextStyle(
                                 fontSize: 18.0,
+                                fontFamily: fontName,
                                 color: lightMainFontColor,
                               ),
                             ),
@@ -93,9 +97,10 @@ class PlanetPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(bottom: 8.0),
                             child: Text(
-                              "678 Earth Days",
+                              planet.year,
                               style: TextStyle(
                                 fontSize: 16.0,
+                                fontFamily: fontName,
                                 color: lightSecondFontColor,
                               ),
                             ),
@@ -106,6 +111,7 @@ class PlanetPage extends StatelessWidget {
                               "Planet Type",
                               style: TextStyle(
                                 fontSize: 18.0,
+                                fontFamily: fontName,
                                 color: lightMainFontColor,
                               ),
                             ),
@@ -113,9 +119,10 @@ class PlanetPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(bottom: 40.0),
                             child: Text(
-                              "Terrestrial",
+                              planet.type,
                               style: TextStyle(
                                 fontSize: 16.0,
+                                fontFamily: fontName,
                                 color: lightSecondFontColor,
                               ),
                             ),
@@ -142,6 +149,7 @@ class PlanetPage extends StatelessWidget {
                       planet.name,
                       style: TextStyle(
                         fontSize: 56,
+                        fontFamily: fontName,
                         fontWeight: FontWeight.w600,
                         color: lightMainFontColor,
                       ),
@@ -150,6 +158,7 @@ class PlanetPage extends StatelessWidget {
                       planet.sub,
                       style: TextStyle(
                         fontSize: 31,
+                        fontFamily: fontName,
                         fontStyle: FontStyle.italic,
                         color: lightSecondFontColor,
                       ),
@@ -163,7 +172,11 @@ class PlanetPage extends StatelessWidget {
                     ),
                     Text(
                       planet.description,
-                      style: TextStyle(fontSize: 20, color: lightMainFontColor),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: fontName,
+                        color: lightMainFontColor,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -181,6 +194,7 @@ class PlanetPage extends StatelessWidget {
                   "Gallery",
                   style: TextStyle(
                     fontSize: 25,
+                    fontFamily: fontName,
                     color: lightMainFontColor,
                   ),
                 ),

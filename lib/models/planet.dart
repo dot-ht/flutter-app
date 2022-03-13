@@ -9,7 +9,7 @@ class Planet {
   final String yearType;
   final String iconImage;
   final String description;
-  final List<String> images;
+  final List<dynamic> images;
 
   Planet({
     this.id,
@@ -25,7 +25,7 @@ class Planet {
     this.images,
   });
 
-  static Planet fromJson(dynamic json) {
+  static Planet fromJson(Map<String, dynamic> json) {
     dynamic distance = json['distance'];
     if (json['distance'] < 1000) {
       distance = "${json['distance'].toString()} mil km";
@@ -42,34 +42,9 @@ class Planet {
       radius: "${json['radius']} km",
       year: "${json['year']}",
       yearType: json['year_type'],
-      iconImage: json['iconImage'],
+      iconImage: json['planet_ico'],
       description: json['planet_info'],
-      images: json['planet_imgs'],
+      images: json['planet_imgs'] as List<dynamic>,
     );
   }
-}
-
-class Planets {
-  final List<Planet> planets;
-
-  Planets({this.planets});
-
-  static Planets fromJson(dynamic json) {
-    final planetsJson = json['planets'];
-    List<Planet> planets;
-
-    for (int i = 0; i < planetsJson.lenght; ++i) {
-      planets.add(Planet.fromJson(planetsJson[i]));
-    }
-
-    return Planets(planets: planets);
-  }
-
-  // reviewsData != null
-  //     // map each review to a Review object
-  //     ? reviewsData.map((reviewData) => Review.fromJson(reviewData))
-  //       // map() returns an Iterable so we convert it to a List
-  //       .toList()
-  //     // use an empty list as fallback value
-  //     : <Review>[];
 }

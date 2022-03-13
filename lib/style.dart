@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+const String fontName = "Roboto";
+
 const Color backgroundColor = Color(0xff030c1b); //Color(0xff191a32);
 const Color planetCardColor = Color(0xff121f32); // Color(0xff3a3a4f);
 const Color bottomAppBarColor = Color(0xff191a32); // Color(0xff383966);

@@ -25,6 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   color: lightMainFontColor,
                   fontSize: 44.0,
+                  fontFamily: fontName,
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:hack_tues_app/models/planets_data.dart";
 import 'package:hack_tues_app/models/screen_arguments.dart';
 import 'package:hack_tues_app/style.dart';
 
@@ -21,7 +20,6 @@ class PlanetCard extends StatelessWidget {
           );
         },
         child: Container(
-          //color: Colors.black,
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -52,6 +50,7 @@ class PlanetCard extends StatelessWidget {
                                 style: TextStyle(
                                   color: lightMainFontColor,
                                   fontSize: 44.0,
+                                  fontFamily: fontName,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.left,
@@ -62,6 +61,7 @@ class PlanetCard extends StatelessWidget {
                               style: TextStyle(
                                 color: lightMainFontColor,
                                 fontSize: 20.0,
+                                fontFamily: fontName,
                                 fontStyle: FontStyle.italic,
                               ),
                               textAlign: TextAlign.left,
@@ -75,6 +75,7 @@ class PlanetCard extends StatelessWidget {
                                 style: TextStyle(
                                   color: lightSecondFontColor,
                                   fontSize: 18.0,
+                                  fontFamily: fontName,
                                 ),
                               ),
                             ),
@@ -93,6 +94,7 @@ class PlanetCard extends StatelessWidget {
                                   style: TextStyle(
                                     color: Colors.purple[400],
                                     fontSize: 20.0,
+                                    fontFamily: fontName,
                                   ),
                                 ),
                               ),
@@ -106,7 +108,7 @@ class PlanetCard extends StatelessWidget {
               ),
               Hero(
                 tag: planet.name,
-                child: Image.asset(
+                child: Image.network(
                   planet.iconImage,
                   height: 300.0,
                 ),

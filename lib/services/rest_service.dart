@@ -7,11 +7,11 @@ class RestService {
 
   RestService(this.api);
 
-  Future<Planets> getPlanets() async {
+  Future<List<Planet>> getPlanets() async {
     return await api.getPlanetData();
   }
 
-  Future<ChatItem> getChat() async {
-    return await api.getBotData();
+  Future<ChatItem> getChat(text) async {
+    return await api.getBotData(text);
   }
 }

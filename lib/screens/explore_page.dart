@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:hack_tues_app/models/planets_data.dart';
 import 'package:hack_tues_app/services/rest_service.dart';
 import 'package:hack_tues_app/style.dart';
 import 'package:hack_tues_app/widgets/planet_card.dart';
@@ -12,24 +11,23 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _PlanetPageState extends State<ExplorePage> {
-  // ======================================
   final _restServices = RestService(RestApi());
-  var _planets;
+  var _planets = [];
   int _currentIndex = 2;
 
   @override
   void initState() {
     super.initState();
-    final planets = _restServices.getPlanets();
-    setState(() {
-      _planets = planets;
-    });
+    getPlanets();
   }
 
-  // void getLenght(_planets) async {
-  //   final lenght = await _planets.planets.lenght;
-  //   setState(() => _planetsLenght = lenght);
-  // }
+  void getPlanets() async {
+    _restServices.getPlanets().then((planets) {
+      setState(() {
+        _planets = planets;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,6 @@ class _PlanetPageState extends State<ExplorePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    //color: Colors.amber,
                     height: MediaQuery.of(context).size.height * 0.15,
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.only(left: 32.0, top: 32.0),
@@ -56,6 +53,7 @@ class _PlanetPageState extends State<ExplorePage> {
                           "Explore",
                           style: TextStyle(
                             color: lightMainFontColor,
+                            fontFamily: fontName,
                             fontSize: 44.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -66,6 +64,7 @@ class _PlanetPageState extends State<ExplorePage> {
                             "Solar System Planets",
                             style: TextStyle(
                               color: lightSecondFontColor,
+                              fontFamily: fontName,
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -76,7 +75,6 @@ class _PlanetPageState extends State<ExplorePage> {
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.70,
-                    //color: Colors.amber,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -84,7 +82,7 @@ class _PlanetPageState extends State<ExplorePage> {
                           options: CarouselOptions(
                               height: MediaQuery.of(context).size.height *
                                   0.70 *
-                                  0.82,
+                                  0.78,
                               initialPage: 2,
                               enlargeCenterPage: true,
                               autoPlay: true,
@@ -95,8 +93,8 @@ class _PlanetPageState extends State<ExplorePage> {
                                 });
                               }),
                           items: List.generate(
-                            _planets.planets.lenght,
-                            (index) => PlanetCard(_planets),
+                            _planets.length,
+                            (index) => PlanetCard(_planets[index]),
                           ),
                         ),
                         SizedBox(
@@ -105,7 +103,7 @@ class _PlanetPageState extends State<ExplorePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(
-                            _planets.planets.lenght,
+                            _planets.length,
                             (index) => Container(
                               width: 10.0,
                               height: 10.0,
